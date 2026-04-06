@@ -1,1 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Market - Foco em Índices</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #f1f3f6;
+            font-family: Arial, sans-serif;
+            overflow: auto;
+        }
 
+        .main-layout {
+            display: flex;
+            height: 100vh;
+            gap: 8px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .window {
+            background-color: white;
+            border: 1px solid #d1d4dc;
+            position: relative;
+            overflow: hidden; /* Mantém o recorte do topo */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* =========================================
+           FRAME VERTICAL (COM ROLAGEM HORIZONTAL)
+           ========================================= */
+        .sidebar {
+            width: 50%; /* Aumentado para dar mais destaque aos índices */
+            height: 100%;
+            overflow: auto; /* Libera as barras de rolagem do container */
+        }
+
+        .sidebar iframe {
+            position: absolute;
+            /* Definimos uma largura grande para forçar a exibição das colunas do site */
+            width: 1300px; 
+            height: 2500px;
+            border: none;
+            
+            /* Ajuste para pular o menu e cair na tabela */
+            top: -240px; 
+            left: 0;
+            
+            transform: scale(1);
+            transform-origin: 0 0;
+        }
+
+        /* =========================================
+           FRAMES HORIZONTAIS (LADO DIREITO)
+           ========================================= */
+        .content {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .ticker-box {
+            flex: 1;
+        }
+
+        .ticker-box iframe {
+            position: absolute;
+            width: 1100px;
+            height: 800px;
+            border: none;
+            top: -155px; 
+            left: -15px;
+        }
+
+        .label {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #2962ff;
+            z-index: 10;
+            background: rgba(255,255,255,0.9);
+            padding: 2px 6px;
+            border: 1px solid #d1d4dc;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-layout">
+    
+    <div class="window sidebar">
+        <div class="label">Índices Futuros (Arraste para o lado se necessário)</div>
+        <iframe src="https://br.investing.com/indices/indices-futures" scrolling="yes"></iframe>
+    </div>
+
+    <div class="content">
+        
+        <div class="window ticker-box">
+            <div class="label">EWZ - Brasil</div>
+            <iframe src="https://br.investing.com/etfs/ishares-brazil-index-news" scrolling="no"></iframe>
+        </div>
+
+        <div class="window ticker-box">
+            <div class="label">DX - Dólar</div>
+            <iframe src="https://br.investing.com/indices/usdollar-news?cid=1224074" scrolling="no"></iframe>
+        </div>
+
+        <div class="window ticker-box">
+            <div class="label">VIX - Volatilidade</div>
+            <iframe src="https://br.investing.com/indices/us-spx-vix-futures-news" scrolling="no"></iframe>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
