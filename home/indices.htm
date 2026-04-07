@@ -41,9 +41,9 @@
             FRAME VERTICAL
            ========================================= */
         .sidebar {
-            width: 65%;
+            width: 64%;
             height: 100%;
-            overflow: auto;
+            overflow: hidden;
         }
 
         .sidebar iframe {
@@ -52,7 +52,7 @@
             height: 2500px;
             border: none;
             top: -180px; 
-            left: 0;
+            left: 5;
         }
 
         /* =========================================
@@ -121,6 +121,8 @@
                 transform: scale(0.8);
                 transform-origin: 0 0;
                 width: 125%; /* Compensa o scale para não sobrar espaço branco */
+				top: -125px; 
+				left: 5;
             }
 
             /* Indicador visual de que há mais telas (opcional) */
