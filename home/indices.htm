@@ -2,7 +2,8 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Market - Foco em Índices</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dashboard Market - Responsive</title>
     <style>
         body, html {
             margin: 0;
@@ -10,61 +11,64 @@
             height: 100%;
             background-color: #f1f3f6;
             font-family: Arial, sans-serif;
-            overflow: auto;
+            overflow: hidden; /* Evita scroll desnecessário no body */
         }
 
+        /* Container Principal com Scroll Snap para Mobile */
         .main-layout {
             display: flex;
             height: 100vh;
+            width: 100vw;
+            box-sizing: border-box;
             gap: 8px;
             padding: 8px;
-            box-sizing: border-box;
+            overflow-x: auto; /* Permite deslizar no mobile */
+            scroll-snap-type: x mandatory; /* Efeito magnético */
+            scroll-behavior: smooth;
         }
 
         .window {
             background-color: white;
             border: 1px solid #d1d4dc;
             position: relative;
-            overflow: hidden; /* Mantém o recorte do topo */
+            overflow: hidden;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0; /* Impede que os itens encolham no mobile */
+            scroll-snap-align: start; /* Onde o "imã" deve parar */
         }
 
         /* =========================================
-           FRAME VERTICAL (COM ROLAGEM HORIZONTAL)
+            FRAME VERTICAL
            ========================================= */
         .sidebar {
-            width: 65%; /* Aumentado para dar mais destaque aos índices */
+            width: 65%;
             height: 100%;
-            overflow: auto; /* Libera as barras de rolagem do container */
+            overflow: auto;
         }
 
         .sidebar iframe {
             position: absolute;
-            /* Definimos uma largura grande para forçar a exibição das colunas do site */
             width: 1400px; 
             height: 2500px;
             border: none;
-            
-            /* Ajuste para pular o menu e cair na tabela */
             top: -180px; 
             left: 0;
-            
-            transform: scale(1);
-            transform-origin: 0 0;
         }
 
         /* =========================================
-           FRAMES HORIZONTAIS (LADO DIREITO)
+            FRAMES HORIZONTAIS (CONTEÚDO)
            ========================================= */
         .content {
             width: 35%;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            flex-shrink: 0;
         }
 
         .ticker-box {
             flex: 1;
+            width: 100%;
         }
 
         .ticker-box iframe {
@@ -89,6 +93,51 @@
             border: 1px solid #d1d4dc;
             border-radius: 3px;
         }
+
+        /* =========================================
+            REGRAS PARA MOBILE (Smartphone)
+           ========================================= */
+        @media (max-width: 768px) {
+            .main-layout {
+                gap: 0;
+                padding: 0;
+            }
+
+            .sidebar {
+                width: 100vw; /* Ocupa a tela inteira */
+                height: 100vh;
+                border: none;
+            }
+
+            .content {
+                width: 100vw; /* Ocupa a tela inteira após o swipe */
+                height: 100vh;
+                padding: 5px;
+                box-sizing: border-box;
+            }
+
+            .sidebar iframe {
+                /* No mobile, talvez precise de um ajuste de zoom ou posição lateral */
+                transform: scale(0.8);
+                transform-origin: 0 0;
+                width: 125%; /* Compensa o scale para não sobrar espaço branco */
+            }
+
+            /* Indicador visual de que há mais telas (opcional) */
+            .sidebar::after {
+                content: "Deslize para ver detalhes ➔";
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                background: #2962ff;
+                color: white;
+                font-size: 10px;
+                padding: 5px;
+                border-radius: 20px;
+                opacity: 0.7;
+                pointer-events: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -96,7 +145,7 @@
 <div class="main-layout">
     
     <div class="window sidebar">
-        <div class="label">Índices Futuros (Arraste para o lado se necessário)</div>
+        <div class="label">Índices Futuros</div>
         <iframe src="https://br.investing.com/indices/indices-futures" scrolling="yes"></iframe>
     </div>
 
