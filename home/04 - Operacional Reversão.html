@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04 - Operacional Reversão</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        header a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .title-setup { color: var(--accent-blue); }
+        .title-filter { color: var(--accent-orange); }
+        .title-buy { color: var(--accent-green); }
+        .title-sell { color: var(--accent-red); }
+        .title-mgmt { color: #a855f7; }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--text-muted);
+            border-radius: 4px;
+            margin-right: 0.75rem;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+            cursor: pointer;
+            position: relative;
+            background-color: transparent;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .checklist-item input[type="checkbox"]:checked {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .checklist-item input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .checklist-item input[type="checkbox"]:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .checklist-text {
+            font-size: 1rem;
+            color: var(--text-main);
+            transition: color 0.2s ease;
+        }
+
+        .checklist-item input[type="checkbox"]:checked ~ .checklist-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .badge-critical {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+            border: 1px solid var(--accent-red);
+        }
+
+        .badge-info {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+        }
+
+        .btn-reset {
+            display: block;
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset:hover {
+            background-color: var(--border-color);
+            border-color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>04 - Operacional Reversão</h1>
+        <p><a href="https://www.youtube.com/watch?v=4owA_RYbdIM" target="_blank">🔴COMO OPERAR REVERSÃO NO ÍNDICE E DÓLAR | B.Trader</a></p>
+    </header>
+
+    <!-- Seção 1 -->
+    <div class="section">
+        <h2 class="section-title title-setup">1. Configuração Inicial do Gráfico</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Estocástico Lento:</strong> Inserido na parte inferior do gráfico (detector de topos e fundos).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Nível de Sobrevenda:</strong> Linha horizontal ajustada manualmente no nível <strong>20</strong> do indicador.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Nível de Sobrecompra:</strong> Linha horizontal ajustada manualmente no nível <strong>80</strong> do indicador.</span>
+        </label>
+    </div>
+
+    <!-- Seção 2 -->
+    <div class="section">
+        <h2 class="section-title title-filter">2. Validação Obrigatória (O Tripé Operacional)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Alvo de Fibonacci:</strong> O preço atingiu exatamente o 3º alvo projetado com base no último pivô (ou pivô disfarçado do dia).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Estocástico Lento:</strong> Indicador cruzando ou localizado nas extremidades de alerta (acima de 80 ou abaixo de 20).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Padrão de Candle:</strong> Formação visual explícita de uma figura gráfica de reversão no alvo.</span>
+        </label>
+    </div>
+
+    <!-- Seção 3 -->
+    <div class="section">
+        <h2 class="section-title title-sell">3. Gatilho para Operações de VENDA (Topos)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Preço atingiu o <strong>3º alvo de Fibonacci</strong> para cima na região de resistência.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Estocástico lento confirmou região de sobrecompra (**acima de 80**).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Formação de um candle padrão de reversão de baixa (ex: **Estrela Cadente** ou Engolfo de Baixa).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Entrada:</strong> Ordem start de venda posicionada na **mínima** do candle gatilho.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Stop Loss:</strong> Posicionado logo acima da **máxima** do candle gatilho.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Alvo de Saída:</strong> Projetado para a realização no **fundo anterior** do gráfico.</span>
+        </label>
+    </div>
+
+    <!-- Seção 4 -->
+    <div class="section">
+        <h2 class="section-title title-buy">4. Gatilho para Operações de COMPRA (Fundos)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Preço atingiu o <strong>3º alvo de Fibonacci</strong> para baixo na região de suporte.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Estocástico lento confirmou região de sobrevenda (**abaixo de 20**) e começou a virar para cima.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Formação de um candle padrão de reversão de alta (ex: **Martelo**).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Entrada:</strong> Ordem start de compra posicionada na **máxima** do candle gatilho.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Stop Loss:</strong> Posicionado logo abaixo da **mínima** do candle gatilho.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Alvo de Saída:</strong> Projetado para a realização no **topo anterior** do gráfico.</span>
+        </label>
+    </div>
+
+    <!-- Seção 5 -->
+    <div class="section">
+        <h2 class="section-title title-mgmt">5. Gerenciamento de Risco e Alertas Cruciais</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Estocástico Isolado:</strong> Lembrar que o indicador sozinho não serve para nada; operar toques em 20/80 de forma isolada quebra a conta.<span class="badge badge-critical">Aviso</span></span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Super-tendência:</strong> Em tendências fortes o estocástico estaciona em níveis como 99 ou 1 e não volta. Entre apenas se o tripé estiver completo.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Falta de 1 Pilar? Se faltar o alvo de fibo ou o padrão de candle, a operação **não deve ser executada**.<span class="badge badge-critical">Regra</span></span>
+        </label>
+    </div>
+
+    <button class="btn-reset" onclick="resetChecklist()">Limpar Checklist</button>
+</div>
+
+<script>
+    function resetChecklist() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+    }
+</script>
+
+</body>
+</html>

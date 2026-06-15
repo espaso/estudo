@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 - Método Americano</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        header a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .title-setup { color: var(--accent-blue); }
+        .title-filter { color: var(--accent-orange); }
+        .title-buy { color: var(--accent-green); }
+        .title-sell { color: var(--accent-red); }
+        .title-mgmt { color: #a855f7; }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--text-muted);
+            border-radius: 4px;
+            margin-right: 0.75rem;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+            cursor: pointer;
+            position: relative;
+            background-color: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-item input[type="checkbox"]:checked {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .checklist-item input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .checklist-item input[type="checkbox"]:shadow {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .checklist-text {
+            font-size: 1rem;
+            color: var(--text-main);
+            transition: color 0.2s ease;
+        }
+
+        .checklist-item input[type="checkbox"]:checked ~ .checklist-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .badge-critical {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+            border: 1px solid var(--accent-red);
+        }
+
+        .badge-info {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+        }
+
+        .btn-reset {
+            display: block;
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset:hover {
+            background-color: var(--border-color);
+            border-color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>02 - Método Americano</h1>
+        <p><a href="https://www.youtube.com/watch?v=LwEGsLuDbMM" target="_blank">🔴COMO OS TRADERS PROFISSIONAIS OPERAM MINI ÍNDICE E MINI DÓLAR | B.Trader</a></p>
+    </header>
+
+    <div class="section">
+        <h2 class="section-title title-setup">1. Preparação e Análise Inicial (Abertura do Mercado)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Olho nas Médias:</strong> Assim que o dia começar e a primeira barra se movimentar, foque imediatamente no alinhamento das médias móveis.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Verificar Tendência de Longo Prazo:</strong> Identificar a posição da Média de 200 (Aritmética).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Verificar Tendência de Médio Prazo:</strong> Identificar a posição da Média de 20 (Aritmética).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Verificar Tendência de Curto Prazo:</strong> Identificar a posição da Média de 9 (Exponencial).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Localizar a Golden Line:</strong> Identificar a linha dourada pontilhada (Média de 9 Exponencial do gráfico de 15 minutos — preço de carrego institucional).</span>
+        </label>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title title-filter">2. Identificação de Padrões e Armadilhas</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Alinhamento Obrigatório:</strong> Para seguir a tendência clássica, todas as médias (200, 20, 9 e Golden Line) precisam apontar para o mesmo lado (para baixo em Vendas / para cima em Compras).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Validação da Barra de Força:</strong> Confirmar se há uma barra de corpo expressivo com fechamento perto da extremidade (Mínima para Venda / Máxima para Compra).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Rastrear Falha de Venda (Swipe de Liquidez):</strong> Se a Média de 20 estiver acima da 200 (desalinhadas) ou a primeira barra vermelha do dia não for de força real, <strong>NÃO VENDA</strong>. <span class="badge badge-critical">Armadilha</span></span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Rastrear Falha de Compra (Swipe de Liquidez):</strong> Se a Média de 20 estiver abaixo da 200 (desalinhadas) ou a primeira barra verde do dia não for de força real, <strong>NÃO COMPRE</strong>. <span class="badge badge-critical">Armadilha</span></span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Nota Institucional:</strong> Os desalinhamentos indicam que os grandes players estão induzindo o varejo ao erro para capturar liquidez na contraparte.</span>
+        </label>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title title-buy">3. Execução da Operação (Gatilho por Falha)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Aguardar Troca de Polaridade:</strong> Esperar que o preço reverta a armadilha inicial e feche rompendo a VWAP (acima para Compra por Falha de Venda / abaixo para Venda por Falha de Compra).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Posicionar a Ordem:</strong> Colocar a ordem de entrada exatamente no teste de retorno à VWAP (preço médio ponderado institucional).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Configurar o Stop Loss Fixo:</strong> <br>• <strong>Mini Índice:</strong> Fixo em 150 pontos.<br>• <strong>Mini Dólar:</strong> Fixo em 5 pontos.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Definir o Alvo Principal:</strong> Projetar a saída final na região da <strong>Golden Line</strong> (em Trades de Compra) ou no <strong>Fundo do Dia/Anterior</strong> (em Trades de Venda). <span class="badge badge-info">Simetria</span></span>
+        </label>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title title-sell">4. Gerenciamento de Risco e Proteção (Pós-Entrada)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Mover para o Breakeven (Zero a Zero):</strong> Assim que a operação andar a seu favor, proteja imediatamente o capital movendo o stop:<br>• <strong>Mini Índice:</strong> Ao atingir +80 pontos.<br>• <strong>Mini Dólar:</strong> Ao atingir +4 pontos.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Primeira Parcial (50%):</strong> Realizar a saída de metade dos contratos assim que o preço tocar na <strong>Média de 9</strong> (linha vermelha).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Segunda Parcial / Alvo Final:</strong> Realizar nova parcial intermediária se necessário e encerrar o restante da posição no alvo macro estipulado.</span>
+        </label>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title title-mgmt">5. Estratégia Alternativa: Defesa Institucional (Order Block)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Mapear Consolidações Prévias:</strong> Identificar zonas de grande acúmulo de preço e volume do dia anterior (Blocos de Ordens / Order Blocks).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Gatilho na Golden Line (Venda):</strong> Se o preço estiver subindo e encontrar a Golden Line dentro de um Order Block vendedor, posicionar uma **Ordem de Venda** (defesa dos grandes players).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Gatilho na Golden Line (Compra):</strong> Se o preço estiver caindo e encontrar a Golden Line dentro de um Order Block comprador, posicionar uma **Ordem de Compra**.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Gerenciamento do Trade de Defesa:</strong> Configurar Stop Loss técnico de 150 pontos (Índice) / 5 pontos (Dólar) e Alvo no extremo oposto (Fundo/Topo anterior).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Realizações Parciais da Defesa:</strong> Executar 50% de parcial na Média de 9, mais 20% na VWAP e carregar o lote restante até o alvo final.</span>
+        </label>
+    </div>
+
+    <button class="btn-reset" onclick="resetChecklist()">Limpar Checklist</button>
+</div>
+
+<script>
+    function resetChecklist() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+    }
+</script>
+
+</body>
+</html>
