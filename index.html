@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist de Estratégias</title>
+    <style>
+        :root {
+            --bg-main: #0f172a;
+            --bg-sidebar: #0f172a;
+            --bg-hover: #282a2c;
+            --bg-active: #333537;
+            --text-color: #e3e3e3;
+            --text-muted: #9e9e9e;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+		
+		/* Oculta a barra de rolagem no Chrome, Safari, Edge e Opera */
+		html::-webkit-scrollbar {
+			display: none;
+		}
+
+		/* Oculta a barra de rolagem no Firefox e IE/Edge antigo */
+		html {
+			scrollbar-width: none; /* Firefox */
+			-ms-overflow-style: none; /* IE e Edge */
+		}
+		
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-main);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- PAINEL ESQUERDO (SIDEBAR) --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s ease;
+            position: relative;
+            border-right: 1px solid #2d2f31;
+            flex-shrink: 0;
+        }
+
+        .sidebar.collapsed {
+            width: 68px;
+        }
+		
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            padding: 20px;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Scroll caso haja muitas páginas no diretório */
+        .nav-list {
+            list-style: none;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            gap: 15px;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .nav-item.active {
+            background-color: var(--bg-active);
+        }
+
+        .icon {
+            width: 24px;
+            text-align: center;
+            font-style: normal;
+        }
+
+        .nav-text {
+            transition: opacity 0.2s;
+            opacity: 1;
+            text-transform: capitalize; /* Deixa a primeira letra maiúscula */
+        }
+
+        .sidebar.collapsed .nav-text {
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+        }
+
+        .sidebar-footer {
+            padding: 15px;
+            border-top: 1px solid #2d2f31;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        /* --- PAINEL DIREITO (CONTEÚDO / IFRAME) --- */
+        .main-content {
+            flex-grow: 1;
+            height: 100%;
+            position: relative;
+            background-color: var(--bg-main); /* Fundo branco para as páginas do iframe, se preferir mude para var(--bg-main) */
+        }
+
+        /* Iframe ocupando 100% de largura e altura */
+        .page-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <button class="menu-toggle" onclick="toggleSidebar()" title="Menu principal">
+            <span class="icon">☰</span>
+            <span class="nav-text" style="font-weight: 600;">Estratégias</span>
+        </button>
+
+        <ul class="nav-list" id="menu-paginas"></ul>
+
+        <div class="sidebar-footer">
+            <span class="nav-text">Estratégias B.Trader | By Gemini</span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <iframe name="conteudo-painel" id="meu-iframe" class="page-viewer" src=""></iframe>
+    </main>
+
+    <script>
+        // 1. CONFIGURAÇÃO DO SEU DIRETÓRIO:
+        // Defina aqui o caminho da pasta onde estão suas páginas (ex: 'paginas/', 'documentos/', etc.)
+        // Se estiverem na mesma pasta deste arquivo HTML principal, deixe vazio: ''
+        const DIRETORIO = 'home'; 
+
+        // 2. LISTA DE PÁGINAS:
+        // Basta adicionar ou remover os nomes dos arquivos .html desta lista
+        const arquivosHtml = [
+            '01 - Fechamento GAP.html',
+            '02 - Método Americano.html',
+            '03 - Melhor Sinal Entrada.html',
+            '04 - Operacional Reversão.html'
+        ];
+
+        // Função para recolher/expandir a barra lateral
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        // Função que gera o menu dinamicamente e carrega a primeira página
+        function gerarMenu() {
+            const menuContainer = document.getElementById('menu-paginas');
+            const iframe = document.getElementById('meu-iframe');
+
+            arquivosHtml.forEach((arquivo, index) => {
+                // Remove a extensão .html para exibir um nome limpo no menu
+                const nomeExibicao = arquivo.replace('.html', '').replace('_', ' ');
+
+                // Cria o elemento <li> do menu
+                const li = document.createElement('li');
+                li.className = 'nav-item';
+                
+                // Define o comportamento de clique para mudar o src do iframe
+                li.onclick = function() {
+                    // Atualiza a classe ativa no menu
+                    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                    li.classList.add('active');
+                    
+                    // Altera o link do iframe
+                    iframe.src = DIRETORIO + arquivo;
+                };
+
+                // Estrutura interna com ícone de documento de página (🔴) e o texto
+                li.innerHTML = `
+                    <span class="icon">🔴</span>
+                    <span class="nav-text">${nomeExibicao}</span>
+                `;
+
+                menuContainer.appendChild(li);
+
+                // Carrega automaticamente a primeira página da lista por padrão
+                if (index === 0) {
+                    li.classList.add('active');
+                    iframe.src = DIRETORIO + arquivo;
+                }
+            });
+        }
+
+        // Executa a função assim que a página carrega
+        window.onload = gerarMenu;
+    </script>
+</body>
+</html>
