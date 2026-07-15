@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Estratégia - Violação de Abertura (Gap)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .title-compra { color: var(--accent-green); }
+        .title-venda { color: var(--accent-red); }
+        .title-config { color: var(--accent-blue); }
+        .title-gerenciamento { color: var(--accent-orange); }
+
+        .checklist-item {
+            display: block;
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checklist-item input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checklist-text {
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .checklist-item strong {
+            color: #fff;
+        }
+
+        /* Custom checkbox */
+        .checklist-item::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 0;
+            height: 18px;
+            width: 18px;
+            background-color: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .checklist-item input:checked ~ .checklist-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .checklist-item input:checked ::before {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        /* Simple indicator when checked */
+        .checklist-item input:checked ~ ::before {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            content: '✓';
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+            line-height: 14px;
+        }
+
+        .btn-reset {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #273549;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-reset:hover {
+            background-color: #334155;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Checklist: Violação de Abertura</h1>
+        <p>Estratégia de Correção de Gaps por Retração (Gráfico de 5 Minutos)</p>
+    </header>
+
+    <!-- Configurações Base -->
+    <div class="section">
+        <h2 class="section-title title-config">1. Configurações e Traçado de Fibonacci</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Gráfico de <strong>5 minutos</strong> no Índice ou Dólar monitorando a abertura do dia.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Identificar um <strong>Gap de Abertura expressivo</strong> (diferença entre o fechamento do dia anterior e a abertura do dia atual).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Traçar Fibonacci do GAP:</strong> Unir as extremidades do <strong>último candle do dia anterior</strong> e do <strong>primeiro candle do dia atual</strong> (incluindo as sombras).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Localizar visualmente de forma estrita apenas a <strong>retração de 50%</strong> (esta estratégia ignora as retrações de 38.2% e 61.8%).</span>
+        </label>
+    </div>
+
+    <!-- Cenário de COMPRA -->
+    <div class="section">
+        <h2 class="section-title title-compra">2. Operação por Violação na COMPRA (Gap de Baixa)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">O mercado abre em Gap de baixa e realiza um movimento de correção subindo em direção ao gap.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">O preço testa e <strong>bate na retração de 50%</strong> do movimento do Gap.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">O candle de teste (ou o seguinte) reage e <strong>fecha ACIMA da retração de 50%</strong>, deixando um sinal comprador (ex: martelo ou candle verde).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Médias móveis (200, 20 e 9) devem estar alinhadas e apontando para cima, com a <strong>Média de 9 na base ou dentro</strong> do candle sinal.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Posicionar ordem de compra <strong>na máxima</strong> deste candle sinalizador.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Posicionar o <strong>Stop na mínima</strong> do mesmo candle.</span>
+        </label>
+    </div>
+
+    <!-- Cenário de VENDA -->
+    <div class="section">
+        <h2 class="section-title title-venda">3. Operação por Violação na VENDA (Gap de Alta)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">O mercado abre em Gap de alta e inicia uma realização de lucros, descendo para fechar o gap.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">O preço desce e <strong>testa a retração de 50%</strong> do movimento do Gap.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">O candle de teste <strong>fecha ABAIXO da retração de 50%</strong>, confirmando a rejeição em um candle vendedor (ex: estrela cadente ou barra vermelha).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Médias móveis (200, 20 e 9) devem estar alinhadas para baixo, com a <strong>Média de 9 encostando ou dentro</strong> do corpo da barra sinalizadora.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Posicionar ordem de venda <strong>na mínima</strong> do candle de sinal.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Posicionar o <strong>Stop na máxima</strong> do candle de sinal.</span>
+        </label>
+    </div>
+
+    <!-- Filtros e Regras Estritas -->
+    <div class="section">
+        <h2 class="section-title title-gerenciamento">4. Filtros Operacionais e Gestão</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Regra de Desconfiguração:</strong> Se o preço romper e fechar além do 50% sem frear ou se descaracterizar na sequência, a operação está <strong>totalmente cancelada</strong>.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">A ativação da ordem deve ocorrer impreterivelmente no <strong>candle seguinte</strong> ao sinalizador.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Traçar projeções de <strong>Fibonacci baseadas no próprio candle de gatilho</strong> para definir a saída.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Alvo Principal:</strong> Buscar a saída ou realizar a realização total no <strong>2º Alvo de Fibonacci</strong>.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Filtro de Horário:</strong> Evitar operar o setup no intervalo das <strong>09:55 às 10:10</strong> devido à volatilidade extrema e spreads da abertura do mercado à vista.</span>
+        </label>
+    </div>
+
+    <button class="btn-reset" onclick="resetChecklist()">Limpar Checklist</button>
+</div>
+
+<script>
+    function resetChecklist() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+    }
+</script>
+</body>
+</html>

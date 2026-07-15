@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist 2: Identificação de Tendência e Setup</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .title-risk { border-color: var(--accent-red); color: var(--text-main); }
+        .title-setup { border-color: var(--accent-blue); color: var(--text-main); }
+        .title-execution { border-color: var(--accent-orange); color: var(--text-main); }
+        .title-targets { border-color: var(--accent-green); color: var(--text-main); }
+        .title-training { border-color: var(--text-muted); color: var(--text-main); }
+
+        .checklist-item {
+            display: block;
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            user-select: none;
+        }
+
+        .checklist-item input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checklist-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.2rem;
+            height: 1.2rem;
+            width: 1.2rem;
+            background-color: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-item:hover::before {
+            border-color: var(--accent-blue);
+        }
+
+        .checklist-item input:checked ~ .checklist-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .checklist-item input:checked::after {
+            display: block;
+        }
+
+        .checklist-item input:checked ~ ::before {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        /* Custom Checkbox Indicator */
+        .checklist-item input:checked ~ .checkmark {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        .checkmark {
+            position: absolute;
+            top: 0.2rem;
+            left: 0;
+            height: 1.2rem;
+            width: 1.2rem;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .checklist-item input:checked ~ .checkmark:after {
+            content: '';
+            position: absolute;
+            display: block;
+            left: 4px;
+            top: 1px;
+            width: 4px;
+            height: 7px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checklist-text {
+            color: var(--text-main);
+            transition: color 0.2s ease;
+        }
+
+        .btn-reset {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset:hover {
+            background-color: var(--border-color);
+            color: var(--text-main);
+        }
+        
+        strong {
+            color: var(--text-main);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-right: 0.3rem;
+        }
+        .badge-buy { background-color: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+        .badge-sell { background-color: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>2. Tendência, Barra Elefante e Continuidade</h1>
+        <p>Estratégia baseada na Revisão de Matéria BTV Aula 7</p>
+    </header>
+
+    
+    <div class="section">
+        <h2 class="section-title title-setup">2. Identificação de Tendência e Confluência (Gráfico de 5 Minutos)</h2>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text">Verificar se as médias móveis estão alinhadas: <strong>Média de 200 (tendência geral)</strong>, <strong>Média de 20 (médio prazo)</strong>, <strong>Média de 9 (curto prazo)</strong> e <strong>VWAP</strong>.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><strong>Evitar operar no meio dos indicadores</strong> (faixa de indecisão / congestão), onde a taxa de acerto cai para <strong>40%</strong> mundialmente.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><span class="badge badge-buy">COMPRA</span> Aguardar o preço trabalhar de forma limpa <strong>acima de todos os indicadores</strong> para buscar compras direcionais (aumenta acerto para 80%).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><span class="badge badge-sell">VENDA</span> Aguardar o preço trabalhar de forma limpa <strong>abaixo de todos os indicadores</strong> para buscar vendas direcionais (aumenta acerto para 80%).</span>
+        </label>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title title-setup">3. O Gatilho Perfeito: Barra Elefante + Continuidade</h2>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><span class="badge badge-buy">COMPRA</span> Identificar uma <strong>Barra Elefante Verde</strong> de força com fechamento próximo à máxima e acima dos indicadores.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><span class="badge badge-buy">COMPRA</span> Aguardar o próximo candle ser um <strong>candle pequeno de continuidade</strong>, cujo fechamento permaneça próximo da máxima.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><span class="badge badge-sell">VENDA</span> Identificar uma <strong>Barra Elefante Vermelha</strong> de força com fechamento próximo à mínima e abaixo dos indicadores.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><span class="badge badge-sell">VENDA</span> Aguardar o próximo candle ser um <strong>candle pequeno de continuidade</strong>, cujo fechamento permaneça próximo da mínima (rejeitando retornar para dentro das médias).</span>
+        </label>
+    </div>
+
+
+    <button class="btn-reset" onclick="resetChecklist()">Limpar Checklist</button>
+</div>
+
+<script>
+    function resetChecklist() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+    }
+</script>
+
+</body>
+</html>

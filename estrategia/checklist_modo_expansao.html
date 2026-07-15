@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist - Estratégia Modo Expansão</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        header a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .title-setup { color: var(--accent-blue); }
+        .title-filter { color: var(--accent-orange); }
+        .title-buy { color: var(--accent-green); }
+        .title-sell { color: var(--accent-red); }
+        .title-mgmt { color: #a855f7; }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--text-muted);
+            border-radius: 4px;
+            margin-right: 0.75rem;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+            cursor: pointer;
+            position: relative;
+            background-color: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-item input[type="checkbox"]:checked {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .checklist-item input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .checklist-text {
+            font-size: 1rem;
+            color: var(--text-main);
+            transition: color 0.2s ease;
+        }
+
+        .checklist-item input[type="checkbox"]:checked ~ .checklist-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .badge-critical {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+            border: 1px solid var(--accent-red);
+        }
+
+        .btn-reset {
+            display: block;
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset:hover {
+            background-color: var(--border-color);
+            border-color: var(--text-muted);
+        }
+    </style>
+    <script>
+        function resetChecklist() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+        }
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Checklist: Estratégia em Modo Expansão</h1>
+        <p>Operacional para mercados esticados buscando o retorno às médias — Canal <a href="http://www.youtube.com/watch?v=7aeVrmUgzOc" target="_blank">B.Trader</a></p>
+    </header>
+
+    <div class="section">
+        <h2 class="section-title title-setup">1. Identificação do Cenário (Gráfico Esticado)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Analisar o gráfico de <strong>5 minutos</strong> e constatar o afastamento severo do preço em relação à média móvel de 200 períodos.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Regra de Ouro:</strong> Evitar vendas em mínimas esticadas ou compras em máximas esticadas (Preço muito barato/caro) <span class="badge badge-critical">Atenção</span>.</span>
+        </label>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title title-buy">2. Execução da COMPRA (Correção de Baixa)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Identificar que o mercado caiu fortemente, ficando muito abaixo das médias (Modo Expandido para Baixo).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Aguardar o surgimento de um <strong>Candle de Força Verde</strong> que feche rompendo e ficando acima da linha da VWAP diária (Barra de Autorização).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Apregoar uma Ordem Limitada de Compra <strong>diretamente na linha da VWAP diária</strong>.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Definir o Stop Técnico padrão: <strong>5 pontos</strong> para o Dólar ou <strong>100 pontos</strong> para o Índice.</span>
+        </label>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title title-sell">3. Execução da VENDA (Correção de Alta)</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Identificar que o mercado subiu fortemente e esticou muito acima da média de 200 (Modo Expandido para Cima).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Aguardar um <strong>Candle de Força Vermelho</strong> fechar rompendo e ficando abaixo da linha da VWAP diária.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Posicionar Ordem Limitada de Venda <strong>na linha da VWAP</strong>, buscando o retorno e o fechamento do GAP.</span>
+        </label>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title title-mgmt">4. Gestão e Proteção Operacional</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Garantia de Capital (Break-even):</strong> Mover o Stop Loss para o preço de entrada (0 a 0) assim que o trade evoluir <strong>4 pontos no dólar</strong> ou <strong>60 pontos no índice</strong>.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Filtro de Desistência:</strong> Caso o trade não se desenvolva em até <strong>15 minutos</strong>, encerrar a posição devido à perda de momentum técnico.</span>
+        </label>
+    </div>
+
+    <button class="btn-reset" onclick="resetChecklist()">Limpar Checklist</button>
+</div>
+</body>
+</html>

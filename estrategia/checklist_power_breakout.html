@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Estratégia - Power Breakout</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .title-compra { color: var(--accent-green); }
+        .title-venda { color: var(--accent-red); }
+        .title-config { color: var(--accent-blue); }
+        .title-gerenciamento { color: var(--accent-orange); }
+
+        .checklist-item {
+            display: block;
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checklist-item input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checklist-text {
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .checklist-item strong {
+            color: #fff;
+        }
+
+        /* Custom checkbox */
+        .checklist-item::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 0;
+            height: 18px;
+            width: 18px;
+            background-color: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .checklist-item input:checked ~ .checklist-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .checklist-item input:checked ::before {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        /* Simple indicator when checked */
+        .checklist-item input:checked ~ ::before {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            content: '✓';
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+            line-height: 14px;
+        }
+
+        .btn-reset {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #273549;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-reset:hover {
+            background-color: #334155;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Checklist: Power Breakout</h1>
+        <p>Estratégia de Acumulação e Rompimento (Gráfico de 5 Minutos)</p>
+    </header>
+
+    <!-- Configurações Base -->
+    <div class="section">
+        <h2 class="section-title title-config">1. Configurações e Pré-requisitos</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Gráfico configurado no tempo gráfico de <strong>5 minutos</strong> (Índice ou Dólar).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Médias móveis plotadas: <strong>Média de 200 aritmética</strong>, <strong>Média de 20 aritmética</strong> e <strong>Média de 9 exponencial</strong>.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Identificar <strong>acumulação/lateralidade</strong> ativa com no mínimo <strong>3 a 4 barras</strong> consecutivas de tamanho pequeno.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Verificar alinhamento das médias: todas devem apontar para a <strong>mesma direção</strong> do movimento (evitar operar se estiverem cruzadas ou emaranhadas).</span>
+        </label>
+    </div>
+
+    <!-- Cenário de COMPRA -->
+    <div class="section">
+        <h2 class="section-title title-green title-compra">2. Operação de COMPRA</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Ocorre uma <strong>Barra Verde Expressiva</strong> de rompimento fechando <strong>acima</strong> da consolidação e das sombras superiores.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Média de 200 aritmética está na <strong>parte de baixo</strong> apontando para cima.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Média de 20 aritmética está na <strong>parte de baixo</strong> servindo como suporte estrutural.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Gatilho Principal (Média de 9):</strong> A média exponencial de 9 está exatamente na <strong>base ou dentro</strong> do corpo do candle de rompimento.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Posicionar ordem de compra <strong>Start na máxima</strong> da barra de rompimento.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Posicionar o <strong>Stop Técnico na mínima</strong> da barra de rompimento.</span>
+        </label>
+    </div>
+
+    <!-- Cenário de VENDA -->
+    <div class="section">
+        <h2 class="section-title title-venda">3. Operação de VENDA</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Ocorre uma <strong>Barra Vermelha Expressiva</strong> de rompimento fechando <strong>abaixo</strong> do suporte da consolidação e das sombras inferiores.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Média de 200 aritmética está na <strong>parte superior</strong> apontando para baixo.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Média de 20 aritmética está na <strong>parte superior</strong> servindo como resistência.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Gatilho Principal (Média de 9):</strong> A média exponencial de 9 está na <strong>base ou dentro</strong> do corpo do candle vermelho de rompimento.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Posicionar ordem de venda <strong>Start na mínima</strong> do candle de rompimento.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Posicionar o <strong>Stop Técnico na máxima</strong> do candle de rompimento.</span>
+        </label>
+    </div>
+
+    <!-- Execução e Alvos -->
+    <div class="section">
+        <h2 class="section-title title-gerenciamento">4. Alvos e Gerenciamento</h2>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">A execução deve ocorrer estritamente no <strong>próximo candle</strong> após o rompimento. Se não acionar imediatamente, cancelar a ordem (evitar falsos rompimentos).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Traçar projeção de <strong>Fibonacci utilizando o próprio candle de rompimento</strong> (da mínima para a máxima na compra, ou da máxima para a mínima na venda).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text"><strong>Alvo Padrão:</strong> Realizar parcial ou saída total preferencialmente no <strong>2º Alvo de Fibonacci</strong>. Em mercados fortes/quentes, estender até o <strong>3º alvo</strong>.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Conduzir a operação no <strong>barra a barra</strong> defendendo o lucro conforme o preço se desenvolve.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox">
+            <span class="checklist-text">Priorizar o <strong>1º ou no máximo o 2º Power Breakout do dia</strong>; os setups seguintes perdem eficiência.</span>
+        </label>
+    </div>
+
+    <button class="btn-reset" onclick="resetChecklist()">Limpar Checklist</button>
+</div>
+
+<script>
+    function resetChecklist() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+    }
+</script>
+</body>
+</html>

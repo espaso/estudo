@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist 4: Condução, Realizações Parciais e Alvos</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .title-risk { border-color: var(--accent-red); color: var(--text-main); }
+        .title-setup { border-color: var(--accent-blue); color: var(--text-main); }
+        .title-execution { border-color: var(--accent-orange); color: var(--text-main); }
+        .title-targets { border-color: var(--accent-green); color: var(--text-main); }
+        .title-training { border-color: var(--text-muted); color: var(--text-main); }
+
+        .checklist-item {
+            display: block;
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            user-select: none;
+        }
+
+        .checklist-item input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checklist-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.2rem;
+            height: 1.2rem;
+            width: 1.2rem;
+            background-color: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-item:hover::before {
+            border-color: var(--accent-blue);
+        }
+
+        .checklist-item input:checked ~ .checklist-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .checklist-item input:checked::after {
+            display: block;
+        }
+
+        .checklist-item input:checked ~ ::before {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        /* Custom Checkbox Indicator */
+        .checklist-item input:checked ~ .checkmark {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        .checkmark {
+            position: absolute;
+            top: 0.2rem;
+            left: 0;
+            height: 1.2rem;
+            width: 1.2rem;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .checklist-item input:checked ~ .checkmark:after {
+            content: '';
+            position: absolute;
+            display: block;
+            left: 4px;
+            top: 1px;
+            width: 4px;
+            height: 7px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checklist-text {
+            color: var(--text-main);
+            transition: color 0.2s ease;
+        }
+
+        .btn-reset {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset:hover {
+            background-color: var(--border-color);
+            color: var(--text-main);
+        }
+        
+        strong {
+            color: var(--text-main);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-right: 0.3rem;
+        }
+        .badge-buy { background-color: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+        .badge-sell { background-color: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>4. Condução de Operações, Parciais e Alvos de Fibonacci</h1>
+        <p>Estratégia baseada na Revisão de Matéria BTV Aula 7</p>
+    </header>
+
+    
+    <div class="section">
+        <h2 class="section-title title-targets">6. Traçado de Alvos e Proteção Capital</h2>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text">Traçar o <strong>Espelhamento de Fibonacci</strong> de forma conservadora utilizando as extremidades da consolidação ou do movimento anterior.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text">Alterar a visualização do Profit de Reais para <strong>Pontos</strong> (focar em pontuação remove o viés psicológico do financeiro).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><strong>Atingiu o Alvo 1 de Fibo:</strong> Mover obrigatoriamente o stop técnico original direto para o <strong>0 a 0 (Break-even)</strong>. Proteção absoluta!</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><strong>Realização Parcial (se operar com mais de 1 contrato):</strong> Executar a saída parcial de <strong>50% dos contratos</strong> no Alvo 1 e colocar o lucro no bolso.</span>
+        </label>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title title-targets">7. Condução Avançada de Tendência (Alvos 2 e 3)</h2>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><strong>Se operar com apenas 1 contrato:</strong> Conduzir a operação integralmente buscando como alvo mínimo o <strong>Alvo 2 de Fibonacci</strong> para criar a cultura de pegar pernadas longas.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><strong>Enforcar a Operação (Stop Gain):</strong> Quando o preço se aproximar do Alvo 2 ou Alvo 3, subir/descer o stop para bem perto do preço atual, garantindo o lucro acumulado (ex: garantir 300 pontos no índice).</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><strong>Condução Barra a Barra:</strong> À medida que os candles de 5 minutos forem fechando a favor do movimento, deslocar o stop gain para a mínima (em compras) ou máxima (em vendas) do candle anterior fechado.</span>
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"><span class="checkmark"></span>
+            <span class="checklist-text"><strong>Regra de Tempo Operacional:</strong> Entender que grandes pernadas levam de <strong>5 a 20 minutos</strong>. Se após 20 minutos o preço travar sem bater no alvo, encerrar a mercado por tempo de tela exaurido.</span>
+        </label>
+    </div>
+
+
+    <button class="btn-reset" onclick="resetChecklist()">Limpar Checklist</button>
+</div>
+
+<script>
+    function resetChecklist() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+    }
+</script>
+
+</body>
+</html>
