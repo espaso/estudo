@@ -233,7 +233,16 @@
 									<!-- Se a imagem não existir, ela mostra um fundo escuro padrão -->
 									<img src="${thumbnailUrl}" alt="${cleanName}" onerror="this.style.display='none';" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
 								</div>
-								...
+                                <div class="card-info">
+                                    <div class="card-avatar">Git</div>
+                                    <div class="card-text">
+                                        <div class="card-title" title="${file.name}">${cleanName}</div>
+                                        <div class="card-metadata">Arquivo • HTML5</div>
+                                        <div class="card-metadata">${(file.size / 1024).toFixed(1)} KB</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
 					`;
 					gridContainer.insertAdjacentHTML('beforeend', cardHTML);
 				});
