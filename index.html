@@ -218,7 +218,26 @@
                 gridContainer.innerHTML = '';
 
                 // Cria os cards dinamicamente
-                htmlFiles.forEach(file => {
+				htmlFiles.forEach(file => {
+					const cleanName = file.name.replace('.html', '').replace(/[-_]/g, ' ');
+					const targetUrl = getPageUrl(file);
+					
+					// Nome da imagem idêntico ao do HTML, mas na pasta 'thumbnails' e extensão .png
+					const imageName = file.name.replace('.html', '.png');
+					const thumbnailUrl = `https://raw.githubusercontent.com/${CONFIG.username}/${CONFIG.repo}/main/imagens/${imageName}`;
+
+					const cardHTML = `
+						<a href="${targetUrl}" target="_blank" class="card-link">
+							<div class="card">
+								<div class="card-thumbnail">
+									<!-- Se a imagem não existir, ela mostra um fundo escuro padrão -->
+									<img src="${thumbnailUrl}" alt="${cleanName}" onerror="this.style.display='none';" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+								</div>
+								...
+					`;
+					gridContainer.insertAdjacentHTML('beforeend', cardHTML);
+				});
+                /*htmlFiles.forEach(file => {
                     const cleanName = file.name.replace('.html', '').replace(/[-_]/g, ' ');
                     const targetUrl = getPageUrl(file);
 
@@ -240,7 +259,7 @@
                         </a>
                     `;
                     gridContainer.insertAdjacentHTML('beforeend', cardHTML);
-                });
+                });*/
 
             } catch (error) {
                 console.error(error);
