@@ -231,7 +231,7 @@
 							<div class="card">
 								<div class="card-thumbnail">
 									<!-- Se a imagem não existir, ela mostra um fundo escuro padrão -->
-									<img src="${thumbnailUrl}" alt="${cleanName}"  loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+									<img src="${thumbnailUrl}" alt="${cleanName}" onerror="this.style.display='none';" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
 								</div>
                                 <div class="card-info">
                                     <div class="card-avatar">Git</div>
