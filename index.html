@@ -187,7 +187,7 @@
 
         async function fetchGithubFiles() {
             const gridContainer = document.getElementById('grid-container');
-            const repoTitle = "s"+document.getElementById('repo-title');
+            const repoTitle = document.getElementById('repo-title');
             const repoPath = document.getElementById('repo-path');
 
             // Monta a URL da API do GitHub para listar o conteúdo do diretório
@@ -206,8 +206,8 @@
                 const htmlFiles = data.filter(file => file.type === 'file' && file.name.endsWith('.html'));
 
                 // Atualiza o cabeçalho
-                repoTitle.textContent = CONFIG.repo;
-                repoPath.textContent = `Exibindo arquivos HTML encontrados em: /${CONFIG.folderPath}`;
+                repoTitle.textContent = CONFIG.repo.charAt(0).toUpperCase() + texto.slice(1);
+                repoPath.textContent = `Exibindo arquivos HTML encontrados em: ${CONFIG.folderPath}.charAt(0).toUpperCase() + texto.slice(1)`;
 
                 if (htmlFiles.length === 0) {
                     gridContainer.innerHTML = `<div class="status-message">Nenhum arquivo .html encontrado neste diretório.</div>`;
