@@ -206,8 +206,8 @@
                 const htmlFiles = data.filter(file => file.type === 'file' && file.name.endsWith('.html'));
 
                 // Atualiza o cabeçalho
-                repoTitle.textContent = CONFIG.repo;
-                repoPath.textContent = `Exibindo arquivos HTML encontrados em: ${CONFIG.folderPath}`;
+                repoTitle.textContent = CONFIG.repo.charAt(0).toUpperCase() + CONFIG.repo.slice(1);
+                repoPath.textContent = `Exibindo arquivos HTML encontrados em: ${CONFIG.folderPath.charAt(0).toUpperCase() + CONFIG.folderPath.slice(1)}`;
 
                 if (htmlFiles.length === 0) {
                     gridContainer.innerHTML = `<div class="status-message">Nenhum arquivo .html encontrado neste diretório.</div>`;
