@@ -425,7 +425,6 @@
                     if (window.innerWidth <= 768) {
                         document.body.classList.add('sidebar-collapsed');
                     }
-                    alert(window.innerWidth);
                 });
 
                 menuList.appendChild(li);
@@ -517,7 +516,10 @@
         document.getElementById('sidebar-overlay').addEventListener('click', () => {
             document.body.classList.add('sidebar-collapsed');
         });
-        document.body.classList.add('sidebar-collapsed');
+        
+        if (window.innerWidth <= 768) {
+            document.body.classList.add('sidebar-collapsed');
+        }
         
         window.addEventListener('DOMContentLoaded', renderSidebarMenu);
     </script>
