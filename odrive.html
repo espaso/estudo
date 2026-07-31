@@ -14,7 +14,7 @@ async function listarVideos() {
         // Token gerado a partir do link de compartilhamento
         // Exemplo: link = "https://1drv.ms/f/s!XXXX"
         // Converter para Base64 URL-safe e prefixar com "u!"
-        const sharingToken = "u!aHR0cHM6Ly8xZHJ2Lm1zL2YvYy83QUJDRThCNzgyNjU0N0VGL0lnQ0U5YnhiaDRjY1NvbGNJejRiT1RuZkFUb3hfWEllZXdXV24wSVk1SjVLU1c0";
+        const sharingToken = gerarSharingToken("https://1drv.ms/f/c/7ABCE8B7826547EF/IgCE9bxbh4ccSolcIz4bOTnfAZtdKH-cJYWknu-w9lF0IaQ");
 
         const resp = await fetch(`https://graph.microsoft.com/v1.0/shares/${sharingToken}/driveItem/children`);
         if (!resp.ok) throw new Error("Erro ao buscar lista");
@@ -51,8 +51,8 @@ function gerarSharingToken(link) {
 }
 
 // Exemplo de uso:
-const link = "https://1drv.ms/f/c/7ABCE8B7826547EF/IgCE9bxbh4ccSolcIz4bOTnfAZtdKH-cJYWknu-w9lF0IaQ";
-console.log(gerarSharingToken(link));
+/*const link = "https://1drv.ms/f/c/7ABCE8B7826547EF/IgCE9bxbh4ccSolcIz4bOTnfAZtdKH-cJYWknu-w9lF0IaQ";
+console.log(gerarSharingToken(link));*/
 
 </script>
 </body>
