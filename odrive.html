@@ -9,12 +9,12 @@
 <div id="videos"></div>
 
 <script>
-/*async function listarVideos() {
+async function listarVideos() {
     try {
         // Token gerado a partir do link de compartilhamento
         // Exemplo: link = "https://1drv.ms/f/s!XXXX"
         // Converter para Base64 URL-safe e prefixar com "u!"
-        const sharingToken = "u!7ABCE8B7826547EF";
+        const sharingToken = "u!aHR0cHM6Ly8xZHJ2Lm1zL2YvYy83QUJDRThCNzgyNjU0N0VGL0lnQ0U5YnhiaDRjY1NvbGNJejRiT1RuZkFUb3hfWEllZXdXV24wSVk1SjVLU1c0";
 
         const resp = await fetch(`https://graph.microsoft.com/v1.0/shares/${sharingToken}/driveItem/children`);
         if (!resp.ok) throw new Error("Erro ao buscar lista");
@@ -38,10 +38,10 @@
     }
 }
 
-listarVideos();*/
+listarVideos();
 
 
-function gerarSharingToken(link) {
+/*function gerarSharingToken(link) {
     // Codifica em Base64
     let base64 = btoa(link);
     // Torna URL-safe
@@ -52,7 +52,7 @@ function gerarSharingToken(link) {
 
 // Exemplo de uso:
 const link = "https://1drv.ms/f/c/7ABCE8B7826547EF/IgCE9bxbh4ccSolcIz4bOTnfATox_XIeewWWn0IY5J5KSW4";
-console.log(gerarSharingToken(link));
+console.log(gerarSharingToken(link));*/
 
 </script>
 </body>
