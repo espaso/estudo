@@ -39,6 +39,21 @@ async function listarVideos() {
 }
 
 listarVideos();
+
+
+function gerarSharingToken(link) {
+    // Codifica em Base64
+    let base64 = btoa(link);
+    // Torna URL-safe
+    base64 = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    // Prefixa com "u!"
+    return "u!" + base64;
+}
+
+// Exemplo de uso:
+const link = "https://1drv.ms/f/c/XXXX/xxxxxxxxxxxxx";
+console.log(gerarSharingToken(link));
+
 </script>
 </body>
 </html>
