@@ -447,7 +447,7 @@
 
             const query = `'${folderId}' in parents and mimeType contains 'video/' and trashed = false`;
             const fields = "files(id, name, thumbnailLink, webViewLink, size)";
-            const apiUrl = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=${encodeURIComponent(fields)}&key=${CONFIG.apiKey}`;
+            const apiUrl = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=${encodeURIComponent(fields)}&orderBy=name&key=${CONFIG.apiKey}`;
 
             try {
                 const response = await fetch(apiUrl);
